@@ -12,7 +12,7 @@ public class MainWindow {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("MainWindowView.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-            stage.setTitle("Hello!");
+            stage.setTitle("phpAdmin login");
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {

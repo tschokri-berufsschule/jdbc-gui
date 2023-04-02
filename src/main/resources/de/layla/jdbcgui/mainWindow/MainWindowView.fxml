@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.VBox?>
 <?import de.layla.jdbcgui.mainWindow.scenes.Login?>
-<?import de.layla.jdbcgui.mainWindow.scenes.Signup?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="de.layla.jdbcgui.mainWindow.MainWindowController">
     <padding>
@@ -11,6 +10,5 @@
     </padding>
 
     <Login/>
-    <Signup/>
 
 </VBox>
