@@ -3,17 +3,20 @@ package de.layla.jdbcgui.mainWindow.scenes;
 import de.layla.jdbcgui.db.DatabaseConnection;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Window;
 
 import java.net.URL;
+import java.sql.Connection;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
     private final DatabaseConnection databaseConnection = new DatabaseConnection();
 
+    @FXML
+    private GridPane root;
     @FXML
     private Label usernameLabel;
     @FXML
@@ -33,7 +36,12 @@ public class LoginController implements Initializable {
 
     @FXML
     private void login() {
-
+        Connection connection = databaseConnection.connect(usernameField.getText(), passwordField.getText());
+        if (connection == null) {
+            showDialog("Login failed");
+        } else {
+            showDialog("Hello " + usernameField.getText() + "!");
+        }
     }
 
     @FXML
