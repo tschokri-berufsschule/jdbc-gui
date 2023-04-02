@@ -1,16 +1,18 @@
 package de.layla.jdbcgui.mainWindow.scenes;
 
+import de.layla.jdbcgui.db.DatabaseConnection;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.*;
+import javafx.stage.Window;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
+
+    private final DatabaseConnection databaseConnection = new DatabaseConnection();
 
     @FXML
     private Label usernameLabel;
@@ -27,7 +29,6 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 
     @FXML
@@ -37,7 +38,19 @@ public class LoginController implements Initializable {
 
     @FXML
     private void signup() {
-        System.out.println("signup");
+        if (!databaseConnection.createNewUser(usernameField.getText(), passwordField.getText())) {
+            showDialog("User creation failed.");
+        } else {
+            showDialog("User successfully created.");
+        }
+    }
+
+    private void showDialog(String text) {
+        Dialog<String> dialog = new Dialog<>();
+        Window window = dialog.getDialogPane().getScene().getWindow();
+        dialog.setContentText(text);
+        window.setOnCloseRequest(e -> window.hide());
+        dialog.showAndWait();
     }
 
 }
