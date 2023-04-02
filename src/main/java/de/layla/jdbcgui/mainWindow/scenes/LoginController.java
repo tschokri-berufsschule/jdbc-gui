@@ -5,7 +5,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Popup;
 import javafx.stage.Window;
 
 import java.net.URL;
@@ -15,7 +14,6 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
 
     private final DatabaseConnection databaseConnection = new DatabaseConnection();
-    private final Dialog<String> dialog = new Dialog<>();
 
     @FXML
     private GridPane root;
@@ -34,24 +32,33 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.dialog.setHeaderText("Warning");
-        this.dialog.setContentText("User not found");
-        dialog.setResizable(false);
-        Window window = dialog.getDialogPane().getScene().getWindow();
-        window.setOnCloseRequest(e -> window.hide());
     }
 
     @FXML
     private void login() {
         Connection connection = databaseConnection.connect(usernameField.getText(), passwordField.getText());
         if (connection == null) {
-            dialog.showAndWait();
+            showDialog("Login failed");
+        } else {
+            showDialog("Hello " + usernameField.getText() + "!");
         }
     }
 
     @FXML
     private void signup() {
-        System.out.println("signup");
+        if (!databaseConnection.createNewUser(usernameField.getText(), passwordField.getText())) {
+            showDialog("User creation failed.");
+        } else {
+            showDialog("User successfully created.");
+        }
+    }
+
+    private void showDialog(String text) {
+        Dialog<String> dialog = new Dialog<>();
+        Window window = dialog.getDialogPane().getScene().getWindow();
+        dialog.setContentText(text);
+        window.setOnCloseRequest(e -> window.hide());
+        dialog.showAndWait();
     }
 
 }
